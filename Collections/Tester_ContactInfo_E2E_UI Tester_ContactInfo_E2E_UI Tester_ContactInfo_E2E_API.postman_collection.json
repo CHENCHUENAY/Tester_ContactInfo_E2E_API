@@ -1,0 +1,768 @@
+{
+	"info": {
+		"_postman_id": "8392cb1c-03fb-45a1-8ebc-e9b5d8d9f169",
+		"name": "TestersInfo_API_UI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28035362",
+		"_collection_link": "https://chenchuz.postman.co/workspace/API_UI_E2E~b103411c-124b-4ef9-9f29-35d231ac9429/collection/28035362-8392cb1c-03fb-45a1-8ebc-e9b5d8d9f169?action=share&source=collection_link&creator=28035362"
+	},
+	"item": [
+		{
+			"name": "Tersters_Contact_Modules",
+			"item": [
+				{
+					"name": "Positive Test Flow",
+					"item": [
+						{
+							"name": "Create Contact",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"pm.environment.set(\"EnayId\", jsonData._id);",
+											"",
+											"",
+											"pm.test(\"Status is 200\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"firstName\": \"Enay\",\n  \"lastName\": \"QA\",\n  \"birthdate\": \"1997-04-19\",\n  \"email\": \"enay.qa@test.com\",\n  \"phone\": \"1234567890\",\n  \"street1\": \"123 Automation St\",\n  \"street2\": \"Suite 404\",\n  \"city\": \"Abu Dhabi\",\n  \"stateProvince\": \"Abu Dhabi\",\n  \"postalCode\": \"00000\",\n  \"country\": \"UAE\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_url}}/contacts",
+									"host": [
+										"{{API_url}}"
+									],
+									"path": [
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Contact by ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Check the firstname\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.firstName).to.eql(\"Enay\");",
+											"console.log(\"First name is:\", jsonData.firstName);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"console.log(\"Final URL:\", pm.request.url.toString());",
+											"console.log(\"Contact ID:\", pm.environment.get(\"EnayId\"));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true,
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_url}}/contacts/{{EnayId}}",
+									"host": [
+										"{{API_url}}"
+									],
+									"path": [
+										"contacts",
+										"{{EnayId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Contact",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "token={{Token_gen}}",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "Content-Transfer-Encoding",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"firstName\": \"Enay\",\n  \"lastName\": \"Jr.QA\",\n  \"birthdate\": \"1997-04-19\",\n  \"email\": \"enay.qa@test.com\",\n  \"phone\": \"1234567890\",\n  \"street1\": \"123 Automation St\",\n  \"street2\": \"Suite 404\",\n  \"city\": \"Abu Dhabi\",\n  \"stateProvince\": \"Abu Dhabi\",\n  \"postalCode\": \"00000\",\n  \"country\": \"UAE\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_url}}/contacts/{{EnayId}}",
+									"host": [
+										"{{API_url}}"
+									],
+									"path": [
+										"contacts",
+										"{{EnayId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate_update",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+											"});",
+											"",
+											"",
+											"",
+											"pm.test(\"Check the firstname\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.lastName).to.eql(\"Jr.QA\");",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{API_url}}/contacts/{{EnayId}}",
+									"host": [
+										"{{API_url}}"
+									],
+									"path": [
+										"contacts",
+										"{{EnayId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Contact",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 or 201\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+											"});",
+											"",
+											"pm.test(\"Contact deleted\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Contact deleted\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "token={{Token_gen}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Transfer-Encoding",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_url}}/contacts/{{EnayId}}",
+									"host": [
+										"{{API_url}}"
+									],
+									"path": [
+										"contacts",
+										"{{EnayId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate Deletion",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"",
+											"console.log(\"Current EnayId:\", pm.environment.get(\"EnayId\"));",
+											"console.log(\"Current API_url:\", pm.environment.get(\"API_url\"));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"// pm.test(\"checks for Contact Not Found message\", function () {",
+											"//     pm.expect(pm.response.text()).to.include(\"404 Not Found\");",
+											"// });",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "token={{Token_gen}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Transfer-Encoding",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{API_url}}/contacts/{{EnayId}}",
+									"host": [
+										"{{API_url}}"
+									],
+									"path": [
+										"contacts",
+										"{{EnayId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Pre-req-neg",
+					"item": [
+						{
+							"name": "Create Contact temp",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"pm.environment.set(\"EnayId\", jsonData._id);",
+											"",
+											"",
+											"pm.test(\"Status is 200\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"firstName\": \"Enay\",\n  \"lastName\": \"QA\",\n  \"birthdate\": \"1997-04-19\",\n  \"email\": \"enay.qa@test.com\",\n  \"phone\": \"1234567890\",\n  \"street1\": \"123 Automation St\",\n  \"street2\": \"Suite 404\",\n  \"city\": \"Abu Dhabi\",\n  \"stateProvince\": \"Abu Dhabi\",\n  \"postalCode\": \"00000\",\n  \"country\": \"UAE\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_url}}/contacts",
+									"host": [
+										"{{API_url}}"
+									],
+									"path": [
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Negative Tests Flow",
+					"item": [
+						{
+							"name": "Create Contact (missing field)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test(\"Status code is 400 Bad Request\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"firstName\": ,\n  \"lastName\": \"QA\",\n  \"birthdate\": \"1997-04-19\",\n  \"email\": \"enay.qa@test.com\",\n  \"phone\": \"1234567890\",\n  \"street1\": \"123 Automation St\",\n  \"street2\": \"Suite 404\",\n  \"city\": \"Abu Dhabi\",\n  \"stateProvince\": \"Abu Dhabi\",\n  \"postalCode\": \"00000\",\n  \"country\": \"UAE\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_url}}/contacts",
+									"host": [
+										"{{API_url}}"
+									],
+									"path": [
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Contact  (invalid ID)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"",
+											"pm.test(\"Status code is 400 Bad Request\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{API_url}}/contacts/{{Invalid_Id}}",
+									"host": [
+										"{{API_url}}"
+									],
+									"path": [
+										"contacts",
+										"{{Invalid_Id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Contact (missing fields)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test(\"Status code is 400 Bad Request\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"firstName\": Invalid,\n  \"lastName\": \"QA\",\n  \"birthdate\": \"1997-04-19\",\n  \"email\": \"enay.qa@test.com\",\n  \"phone\": \"1234567890\",\n  \"street1\": \"123 Automation St\",\n  \"street2\": \"Suite 404\",\n  \"city\": \"Abu Dhabi\",\n  \"stateProvince\": \"Abu Dhabi\",\n  \"postalCode\": \"00000\",\n  \"country\": \"UAE\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_url}}/contacts/{{EnayId}}",
+									"host": [
+										"{{API_url}}"
+									],
+									"path": [
+										"contacts",
+										"{{EnayId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Token_gen",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonData = pm.response.json();",
+							"let cleanToken = jsonData.token.trim();  // 🔥 removes any hidden line breaks",
+							"pm.environment.set(\"Token\", cleanToken);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "Testing123!",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "test@test.com",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"firstName\": \"Test\",\n  \"lastName\": \"User\",\n  \"email\": \"test2.enay@fake.com\",\n  \"password\": \"myNewPassword\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://thinking-tester-contact-list.herokuapp.com/users",
+					"protocol": "https",
+					"host": [
+						"thinking-tester-contact-list",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"users"
+					],
+					"query": [
+						{
+							"key": "Content-",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
